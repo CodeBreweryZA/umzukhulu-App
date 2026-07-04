@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Umzugulu App</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<link rel="stylesheet"
+ href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&family=Playfair+Display:wght@500&display=swap" rel="stylesheet">
+
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:Poppins,sans-serif;background:#f6f7f9;color:#333}
+a{text-decoration:none;color:inherit}
+
+/* HEADER */
+header{
+  background:linear-gradient(135deg,#1f3c88,#3a5ba0);
+  color:#fff;
+  padding:18px 24px;
+}
+.header-inner{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  flex-wrap:wrap;
+}
+.brand h1{font-family:"Playfair Display",serif;font-size:1.6rem}
+
+nav{display:flex;gap:15px;flex-wrap:wrap}
+nav a{color:#fff;font-weight:500;cursor:pointer}
+nav a:hover{text-decoration:underline}
+
+/* PAGES */
+.page{display:none;padding:40px 20px;max-width:1200px;margin:auto}
+.page.active{display:block;animation:fadeIn .4s ease}
+@keyframes fadeIn{from{opacity:0}to{opacity:1}}
+
+/* GRID & CARDS */
+.grid{display:grid;gap:20px}
+.grid-3{grid-template-columns:repeat(auto-fit,minmax(240px,1fr))}
+.card{
+  background:#fff;
+  padding:22px;
+  border-radius:10px;
+  box-shadow:0 4px 10px rgba(0,0,0,.08);
+}
+
+/* BUTTONS */
+button{
+  background:#1f3c88;
+  color:#fff;
+  border:none;
+  padding:12px;
+  border-radius:6px;
+  font-weight:600;
+  cursor:pointer;
+  transition:.3s;
+}
+button:hover{background:#162e66;transform:translateY(-2px)}
+
+/* FORMS */
+input,textarea{
+  width:100%;
+  padding:10px;
+  margin-top:8px;
+  border-radius:6px;
+  border:1px solid #ccc;
+}
+textarea{min-height:120px}
+
+/* FOOTER */
+footer{
+  background:#1f3c88;
+  color:#fff;
+  text-align:center;
+  padding:20px;
+  margin-top:40px;
+}
+</style>
+</head>
+
+<body>
+
+<header>
+  <div class="header-inner">
+    <div class="brand">
+      <h1>Umzugulu App</h1>
+    </div>
+    <nav>
+      <a onclick="showPage('home')">Home</a>
+      <a onclick="showPage('about')">About</a> 
+      <a onclick="showPage('services')">Services</a>
+      <a onclick="showPage('contact')">Contact</a>
+      <a onclick="showPage('login')">Login</a>
+      <a onclick="showPage('signup')">Sign Up</a>
+    </nav>
+  </div>
+</header>
+
+<!-- HOME -->
+<section id="home" class="page active">
+  <h2>Honoring Memories With Care</h2>
+  <p style="margin:12px 0 25px">
+    Record, locate, and preserve the resting places of your loved ones.
+  </p>
+
+  <div class="card">
+    <h3><i class="fas fa-heart"></i> Memorial & Burial Plot Record</h3>
+
+    <label>Family Member Full Name</label>
+    <input id="memberName" placeholder="e.g. Nomsa Dlamini">
+
+    <label>Cemetery / Plot Description</label>
+    <input id="plotDesc" placeholder="Section B, Row 4, Plot 12">
+
+    <label>Date Recorded</label>
+    <input type="date" id="recordDate">
+
+    <label>Memory / Tribute</label>
+    <textarea id="memoryText" placeholder="Write a memory, message or tribute..."></textarea>
+
+    <label>GPS Location</label>
+    <input id="latitude" placeholder="Latitude" readonly>
+    <input id="longitude" placeholder="Longitude" readonly>
+
+    <button onclick="getLocation()" style="margin-top:10px">
+      <i class="fas fa-map-marker-alt"></i> Get Current Location
+    </button>
+
+    <button onclick="saveMemorial()" style="margin-top:12px">
+      Save Memorial Record
+    </button>
+
+    <p id="memorialMsg" style="margin-top:10px"></p>
+  </div>
+</section>
+
+<!-- ABOUT --> 
+<section id="about" class="page"> 
+  <h2>About Us</h2> 
+  <p style="margin-top:12px"> 
+    Umzugulu App was created to ensure that distance never 
+    separates families from remembrance. We combine technology 
+    with compassion to protect sacred spaces. 
+  </p> 
+</section>
+
+<!-- SERVICES -->
+<section id="services" class="page">
+  <h2>Our Graveyard Services</h2>
+  <div class="grid grid-3" style="margin-top:20px">
+    <div class="card">
+      <h3>Grave Maintenance</h3>
+      <p>Cleaning, grass cutting, stone care.</p>
+    </div>
+    <div class="card">
+      <h3>Flower Services</h3>
+      <p>Fresh flowers for special dates.</p>
+    </div>
+    <div class="card">
+      <h3>Visit Confirmation</h3>
+      <p>Photos and condition reports.</p>
+    </div>
+  </div>
+</section>
+
+<!-- CONTACT -->
+<section id="contact" class="page">
+  <h2>Contact Us</h2>
+  <input placeholder="Your Name">
+  <input placeholder="Email">
+  <textarea placeholder="Message"></textarea>
+  <button style="margin-top:10px">Send Message</button>
+</section>
+
+<!-- LOGIN -->
+<section id="login" class="page">
+  <h2>Login</h2>
+  <input placeholder="Email">
+  <input type="password" placeholder="Password">
+  <button style="margin-top:10px" onclick="loginUser()">Login</button>
+</section>
+
+<!-- SIGN UP -->
+<section id="signup" class="page">
+  <h2>Sign Up</h2>
+  <input placeholder="First Name">
+  <input placeholder="Last Name">
+  <input type="email" placeholder="Email">
+  <input type="password" placeholder="Password">
+  <input type="password" placeholder="Confirm Password">
+  <button style="margin-top:10px">Create Account</button>
+</section>
+
+<footer>
+  <p>© 2026 Umzugulu App — Created with dignity and care</p>
+</footer>
+
+<script>
+function showPage(id){
+  document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+}
+
+/* LOGIN → REDIRECT TO MEMORIAL SECTION */
+function loginUser(){
+  showPage('home');
+  document.getElementById('memberName').focus();
+}
+
+/* GEOLOCATION */
+function getLocation(){
+  if(navigator.geolocation){
+    navigator.geolocation.getCurrentPosition(pos=>{
+      latitude.value = pos.coords.latitude.toFixed(6);
+      longitude.value = pos.coords.longitude.toFixed(6);
+    },()=>{
+      alert("Location access denied.");
+    });
+  } else {
+    alert("Geolocation not supported.");
+  }
+}
+
+/* SAVE MEMORIAL */
+function saveMemorial(){
+  if(!memberName.value || !plotDesc.value){
+    memorialMsg.textContent = "Please complete required fields.";
+    memorialMsg.style.color = "red";
+    return;
+  }
+  memorialMsg.textContent = "Memorial record saved successfully.";
+  memorialMsg.style.color = "green";
+}
+</script>
+
+</body>
+</html>

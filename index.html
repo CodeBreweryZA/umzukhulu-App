@@ -1,0 +1,389 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Umzugulu App</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<link rel="stylesheet"
+ href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&family=Playfair+Display:wght@500&display=swap" rel="stylesheet">
+
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:Poppins,sans-serif;background:#f6f7f9;color:#333}
+a{text-decoration:none;color:inherit}
+
+/* HEADER */
+header{
+  background:linear-gradient(135deg,#1f3c88,#3a5ba0);
+  color:#fff;
+  padding:18px 24px;
+}
+.header-inner{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  flex-wrap:wrap;
+  gap:12px;
+}
+.brand{display:flex;align-items:center;gap:12px}
+.brand img{height:44px;width:auto;border-radius:8px;background:#fff;padding:4px}
+.brand h1{font-family:"Playfair Display",serif;font-size:1.6rem}
+
+nav{display:flex;gap:12px;flex-wrap:wrap}
+nav a{color:#fff;font-weight:600;cursor:pointer;padding:8px 10px;border-radius:8px}
+nav a:hover{background:rgba(255,255,255,.15)}
+
+/* PAGES */
+.page{display:none;padding:40px 20px;max-width:1200px;margin:auto}
+.page.active{display:block;animation:fadeIn .35s ease}
+@keyframes fadeIn{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:translateY(0)}}
+
+/* GRID & CARDS */
+.grid{display:grid;gap:20px}
+.grid-3{grid-template-columns:repeat(auto-fit,minmax(240px,1fr))}
+.grid-2{grid-template-columns:repeat(auto-fit,minmax(280px,1fr))}
+.card{
+  background:#fff;
+  padding:22px;
+  border-radius:12px;
+  box-shadow:0 8px 24px rgba(0,0,0,.08);
+}
+
+/* BUTTONS */
+button,.btn{
+  background:#1f3c88;
+  color:#fff;
+  border:none;
+  padding:12px 14px;
+  border-radius:10px;
+  font-weight:700;
+  cursor:pointer;
+  transition:.25s;
+}
+button:hover,.btn:hover{background:#162e66;transform:translateY(-2px)}
+.btn-outline{background:transparent;border:2px solid #fff;color:#fff}
+.btn-muted{background:#edf2f7;color:#1f3c88}
+
+/* FORMS */
+label{font-weight:600;margin-top:10px;display:block}
+input,textarea,select{
+  width:100%;
+  padding:12px;
+  margin-top:8px;
+  border-radius:10px;
+  border:1px solid #d7dbe0;
+  background:#fff;
+}
+textarea{min-height:130px}
+
+/* HERO */
+.hero{
+  background:url('https://images.unsplash.com/photo-1506748686214-e9df14d4d9d0?auto=format&fit=crop&w=1600&q=80') center/cover no-repeat;
+  color:#fff;
+  text-align:center;
+  padding:64px 20px;
+  position:relative;
+}
+.hero::after{content:"";position:absolute;inset:0;background:rgba(0,0,0,.35)}
+.hero .inner{position:relative;z-index:1;max-width:900px;margin:auto}
+.hero h2{font-size:clamp(1.6rem,3.5vw,2.4rem);margin-bottom:8px}
+.hero p{font-size:clamp(1rem,2.2vw,1.2rem);opacity:.95}
+.hero-actions{margin-top:16px;display:flex;gap:10px;justify-content:center;flex-wrap:wrap}
+
+/* SERVICES IMAGES */
+.service-img{width:100%;height:160px;object-fit:cover;border-radius:10px;margin-bottom:12px}
+
+/* FOOTER */
+footer{
+  background:#1f3c88;
+  color:#fff;
+  text-align:center;
+  padding:20px;
+  margin-top:40px;
+}
+
+/* UTIL */
+.kicker{text-transform:uppercase;letter-spacing:.08em;color:#6b7280;font-size:.8rem}
+.muted{color:#6b7280}
+.center{text-align:center}
+@media (max-width:640px){
+  nav{justify-content:center}
+}
+</style>
+</head>
+
+<body>
+
+<header>
+  <div class="header-inner">
+    <div class="brand">
+      <img src="logo.png" alt="Umzugulu Logo">
+      <h1>Umzugulu App</h1>
+    </div>
+    <nav>
+      <a onclick="showPage('home')">Home</a>
+      <a onclick="showPage('about')">About</a> 
+      <a onclick="showPage('services')">Services</a>
+      <a onclick="showPage('contact')">Contact</a>
+      <a onclick="showPage('login')">Login</a>
+      <a onclick="showPage('signup')">Sign Up</a>
+    </nav>
+  </div>
+</header>
+
+<section class="hero">
+  <div class="inner">
+    <h2>Preserving memories with dignity</h2>
+    <p>Record, locate, and share memorials and burial plots—so families can find and honor their loved ones.</p>
+    <div class="hero-actions">
+      <a class="btn-outline" onclick="showPage('signup')">Create an account</a>
+      <a class="btn" onclick="showPage('home')">Start a record</a>
+    </div>
+  </div>
+</section>
+
+<!-- HOME -->
+<section id="home" class="page active">
+  <div class="grid grid-2">
+    <div class="card">
+      <div class="kicker">Memorial record</div>
+      <h3><i class="fas fa-heart"></i> Memorial & Burial Plot Record</h3>
+      <form action="db.php" method="POST">
+        <input type="hidden" name="form_type" value="memorial">
+        <label>Family Member Full Name</label>
+        <input name="full_name" placeholder="e.g. Nomsa Dlamini" required>
+
+        <label>Cemetery / Plot Description</label>
+        <input name="cemetery_desc" placeholder="Section B, Row 4, Plot 12">
+
+        <label>Date Recorded</label>
+        <input type="date" name="record_date" required>
+
+        <label>Memory / Tribute</label>
+        <textarea name="tribute" placeholder="Write a memory, message or tribute..."></textarea>
+
+        <div class="grid grid-2">
+          <div>
+            <label>Latitude</label>
+            <input id="latitude" name="latitude" placeholder="Latitude" readonly>
+          </div>
+          <div>
+            <label>Longitude</label>
+            <input id="longitude" name="longitude" placeholder="Longitude" readonly>
+          </div>
+        </div>
+
+        <div style="display:flex;gap:10px;flex-wrap:wrap;margin-top:12px">
+          <button type="button" onclick="getLocation()">
+            <i class="fas fa-map-marker-alt"></i> Get Current Location
+          </button>
+          <button type="submit">Save Memorial Record</button>
+        </div>
+        <p id="memorialMsg" class="muted" style="margin-top:10px"></p>
+      </form>
+    </div>
+
+    <div class="card">
+      <div class="kicker">Why Umzugulu</div>
+      <h3>Built for families</h3>
+      <p class="muted">Capture names, tributes, and precise GPS coordinates for lasting, searchable records. Share memorial pages privately or publicly—your choice.</p>
+      <div class="grid grid-3" style="margin-top:12px">
+        <img class="service-img" src="https://images.unsplash.com/photo-1524492449090-1a2f3d1d5f2d?auto=format&fit=crop&w=800&q=80" alt="Cemetery landscape">
+        <img class="service-img" src="https://images.unsplash.com/photo-1504196606672-aef5c9cefc92?auto=format&fit=crop&w=800&q=80" alt="Memorial flowers">
+        <img class="service-img" src="https://images.unsplash.com/photo-1509042239860-f550ce710b93?auto=format&fit=crop&w=800&q=80" alt="Peaceful sky">
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ABOUT --> 
+<section id="about" class="page"> 
+  <div class="grid grid-2">
+    <div class="card">
+      <div class="kicker">About</div>
+      <h3>About Umzugulu</h3> 
+      <p class="muted">Umzugulu App was created to ensure that distance never separates families from remembrance. We combine technology with compassion to protect sacred spaces.</p> 
+    </div>
+    <div class="card">
+      <div class="kicker">Values</div>
+      <h3>What we value</h3>
+      <ul class="muted" style="margin-left:18px">
+        <li><strong>Respect:</strong> Sensitive handling of personal memories.</li>
+        <li><strong>Accuracy:</strong> Reliable GPS and clear plot descriptions.</li>
+        <li><strong>Privacy:</strong> You control who sees your records.</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- SERVICES -->
+<section id="services" class="page">
+  <div class="card center">
+    <div class="kicker">Services</div>
+    <h3>Our Graveyard Services</h3>
+    <p class="muted">From memorial records to location guidance—built for families and caretakers.</p>
+  </div>
+
+  <div class="grid grid-3" style="margin-top:20px">
+    <div class="card">
+      <img class="service-img" src="https://images.unsplash.com/photo-1524492449090-1a2f3d1d5f2d?auto=format&fit=crop&w=800&q=80" alt="Grave Maintenance">
+      <h4>Grave Maintenance</h4>
+      <p class="muted">Cleaning, grass cutting, stone care.</p>
+    </div>
+    <div class="card">
+      <img class="service-img" src="https://images.unsplash.com/photo-1504196606672-aef5c9cefc92?auto=format&fit=crop&w=800&q=80" alt="Flower Services">
+      <h4>Flower Services</h4>
+      <p class="muted">Fresh flowers for special dates.</p>
+    </div>
+    <div class="card">
+      <img class="service-img" src="https://images.unsplash.com/photo-1509042239860-f550ce710b93?auto=format&fit=crop&w=800&q=80" alt="Visit Confirmation">
+      <h4>Visit Confirmation</h4>
+      <p class="muted">Photos and condition reports.</p>
+    </div>
+  </div>
+</section>
+
+<!-- CONTACT -->
+<section id="contact" class="page">
+  <div class="grid grid-2">
+    <div class="card">
+      <div class="kicker">Contact</div>
+      <h3>Send a message</h3>
+      <form action="db.php" method="POST" id="contactForm">
+        <input type="hidden" name="form_type" value="contact">
+        <label>Your Name</label>
+        <input name="name" placeholder="Your Name" required>
+        <label>Email</label>
+        <input name="email" type="email" placeholder="you@example.com" required>
+        <label>Message</label>
+        <textarea name="message" placeholder="Write your message..." required></textarea>
+        <button type="submit" style="margin-top:10px">Send Message</button>
+      </form>
+    </div>
+    <div class="card">
+      <div class="kicker">Details</div>
+      <h3>Our details</h3>
+      <p class="muted">Email: support@umzugulu.org</p>
+      <p class="muted">Hours: Mon–Fri, 09:00–17:00 SAST</p>
+      <div class="grid grid-2" style="margin-top:12px">
+        <img class="service-img" src="https://images.unsplash.com/photo-1520975922200-8b456906c813?auto=format&fit=crop&w=800&q=80" alt="Office">
+        <img class="service-img" src="https://images.unsplash.com/photo-1500534314209-a25ddb2bd429?auto=format&fit=crop&w=800&q=80" alt="Team">
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- LOGIN -->
+<section id="login" class="page">
+  <div class="grid grid-2">
+    <div class="card">
+      <div class="kicker">Account</div>
+      <h3>Login</h3>
+      <form action="db.php" method="POST" id="loginForm">
+        <input type="hidden" name="form_type" value="login">
+        <label>Email</label>
+        <input name="email" type="email" placeholder="you@example.com" required>
+        <label>Password</label>
+        <input type="password" name="password" placeholder="••••••••" required>
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-top:8px">
+          <label><input type="checkbox" name="remember"> Remember me</label>
+          <a class="muted" href="#">Forgot password?</a>
+        </div>
+        <button type="submit" style="margin-top:10px">Login</button>
+      </form>
+      <p class="muted" style="margin-top:10px">No account? <a onclick="showPage('signup')">Sign up</a></p>
+    </div>
+    <div class="card">
+      <div class="kicker">Why log in?</div>
+      <h3>Benefits</h3>
+      <ul class="muted" style="margin-left:18px">
+        <li><strong>Save records:</strong> Keep memorials organized.</li>
+        <li><strong>Privacy controls:</strong> Choose who can view.</li>
+        <li><strong>Location tools:</strong> Manage GPS details.</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- SIGN UP -->
+<section id="signup" class="page">
+  <div class="grid grid-2">
+    <div class="card">
+      <div class="kicker">Account</div>
+      <h3>Create your account</h3>
+      <form action="db.php" method="POST" id="signupForm">
+        <input type="hidden" name="form_type" value="signup">
+        <div class="grid grid-2">
+          <div>
+            <label>First name</label>
+            <input name="first_name" placeholder="Letago" required>
+          </div>
+          <div>
+            <label>Last name</label>
+            <input name="last_name" placeholder="Nkosi" required>
+          </div>
+        </div>
+        <label>Email</label>
+        <input name="email" type="email" placeholder="you@example.com" required>
+        <div class="grid grid-2">
+          <div>
+            <label>Password</label>
+            <input name="password" type="password" placeholder="••••••••" required>
+          </div>
+          <div>
+            <label>Confirm password</label>
+            <input name="confirm" type="password" placeholder="••••••••" required>
+          </div>
+        </div>
+        <label><input type="checkbox" required> I agree to the terms</label>
+        <button type="submit" style="margin-top:10px">Create account</button>
+      </form>
+      <p class="muted" style="margin-top:10px">Already have an account? <a onclick="showPage('login')">Log in</a></p>
+    </div>
+    <div class="card">
+      <div class="kicker">What you’ll get</div>
+      <h3>Features</h3>
+      <ul class="muted" style="margin-left:18px">
+        <li><strong>Memorial records:</strong> Full name, cemetery/plot, date, tribute, GPS.</li>
+        <li><strong>Sharing:</strong> Private or public memorial pages.</li>
+        <li><strong>Support:</strong> Friendly help when you need it.</li>
+      </ul>
+      <div class="grid grid-2" style="margin-top:12px">
+        <img class="service-img" src="https://images.unsplash.com/photo-1509042239860-f550ce710b93?auto=format&fit=crop&w=800&q=80" alt="Sky">
+        <img class="service-img" src="https://images.unsplash.com/photo-1504196606672-aef5c9cefc92?auto=format&fit=crop&w=800&q=80" alt="Flowers">
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <p>© 2026 Umzugulu App — Created with dignity and care</p>
+</footer>
+
+<script>
+function showPage(id){
+  document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+/* GEOLOCATION */
+function getLocation(){
+  if(navigator.geolocation){
+    navigator.geolocation.getCurrentPosition(pos=>{
+      document.getElementById('latitude').value = pos.coords.latitude.toFixed(6);
+      document.getElementById('longitude').value = pos.coords.longitude.toFixed(6);
+      document.getElementById('memorialMsg').textContent = "Location captured.";
+    },()=>{
+      alert("Location access denied.");
+    });
+  } else {
+    alert("Geolocation not supported.");
+  }
+}
+</script>
+
+</body>
+</html>
